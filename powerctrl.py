@@ -5,6 +5,7 @@ class Powerctrl:
 
     def __init__(self, port, baud=9600):
         self.serial = serial.Serial(port, baud)
+        self.ports = [0 for x in xrange(8)]
 
     def port_set(self, port, value):
 
@@ -14,7 +15,15 @@ class Powerctrl:
         if value != 1 and value != 0:
             raise Exception("Invalid port value")
 
+        self.ports[port] = value
         self.send("sp%d.%d" % (port,value))
+
+    def port_get(self, port):
+
+        if port < 0 or port > 7:
+            raise Exception("Invalid port range")
+
+        return self.ports[port]
 
     def port_on(self, port):
         self.port_set(port, 1)
@@ -27,6 +36,7 @@ class Powerctrl:
         if value != 1 and value != 0:
             raise Exception("Invalid port value")
 
+        self.ports = [value for x in xrange(8)]
         self.send("sa%d" % (value))
 
     def everything_on(self):
