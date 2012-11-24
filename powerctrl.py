@@ -1,5 +1,4 @@
 import serial
-import time
 
 class Powerctrl:
 
@@ -46,6 +45,5 @@ class Powerctrl:
         self.everything_set(0)
 
     def send(self, cmd):
-        print cmd
         self.serial.write(cmd+'\r\n')
 
